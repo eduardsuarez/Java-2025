@@ -82,6 +82,12 @@ public class Plataforma {
                 .toList();
     }
 
+    public List<Promocionable> getContenidoPromocionable() {
+        return contenido.stream()
+                .filter(contenido1 -> contenido1 instanceof Promocionable)
+                .map(contenidoFiltrado -> (Promocionable) contenidoFiltrado)
+                .toList();
+    }
 
     public void eliminar(Contenido elemento) {
         this.contenido.remove(elemento);

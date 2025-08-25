@@ -1,6 +1,6 @@
 package platzi.play.contenido;
 
-public class Documental extends Contenido {
+public class Documental extends Contenido implements Promocionable {
     private String narrador;
 
     public Documental(String titulo, int duracion, Genero genero) {
@@ -17,7 +17,14 @@ public class Documental extends Contenido {
         System.out.println("Reproduciendo el documental narrado por " + getNarrador());
     }
 
+    @Override
+    public String promocionar() {
+        return "🎈 Descubre el documental " + this.getTitulo() + " narrador por " + narrador;
+    }
+
     public String getNarrador() {
         return narrador;
     }
+
+
 }

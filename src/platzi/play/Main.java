@@ -24,7 +24,9 @@ public class Main {
         Plataforma plataforma = new Plataforma("Gestion peliculas");
 
         cargarPeliculas(plataforma);
-        System.out.println("Mas de " + plataforma.getTotalDuracion() + " minutos de contenido.");
+        System.out.println("Mas de " + plataforma.getTotalDuracion() + " minutos de contenido.\n");
+        plataforma.getContenidoPromocionable().forEach(promocionable -> System.out.println(promocionable.promocionar()));
+
         while (true) {
             int opcion;
             opcion = ScannerUtils.capturarNumero("""
