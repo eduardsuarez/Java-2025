@@ -1,8 +1,6 @@
 package platzi.play.plataforma;
 
-import platzi.play.contenido.Genero;
-import platzi.play.contenido.Pelicula;
-import platzi.play.contenido.ResumenContenido;
+import platzi.play.contenido.*;
 import platzi.play.excepxion.PeliculaExistenteException;
 import platzi.play.util.FileUtils;
 
@@ -10,8 +8,8 @@ import java.util.*;
 
 public class Plataforma {
     private String nombre;
-    private List<Pelicula> contenido; // Agregación
-    private Map<Pelicula, Integer> visualizaciones;
+    private List<Contenido> contenido; // Agregación
+    private Map<Contenido, Integer> visualizaciones;
 
     public Plataforma(String nombre) {
         this.nombre = nombre;
@@ -19,61 +17,78 @@ public class Plataforma {
         this.visualizaciones = new HashMap<>();
     }
 
-    public void agregar(Pelicula elemento) {
-        Pelicula contenido = this.buscarPorTitulo(elemento.getTitulo());
+    public void agregar(Contenido elemento) {
+        Contenido contenido = this.buscarPorTitulo(elemento.getTitulo());
         if (contenido != null) {
             throw new PeliculaExistenteException(elemento.getTitulo());
         }
         FileUtils.escribirContenido(elemento);
         this.contenido.add(elemento);
     }
-    public void reproducir(Pelicula contenido) {
-        int conteoActual = visualizaciones.getOrDefault(contenido, 0);
-        System.out.println(contenido.getTitulo() + " ha sido reproducido "+ conteoActual + " veces.");
 
-        this.contarVisualizcion(contenido);
+    public void reproducir(Contenido contenido) {
+        int conteoActual = visualizaciones.getOrDefault(contenido, 0);
+        System.out.println(contenido.getTitulo() + " ha sido reproducido " + conteoActual + " veces.");
+
+        this.contarVisualizacion(contenido);
         contenido.reproducir();
     }
-    private void contarVisualizcion(Pelicula contenido) {
+
+    private void contarVisualizacion(Contenido contenido) {
         int conteoActal = visualizaciones.getOrDefault(contenido, 0);
         visualizaciones.put(contenido, conteoActal + 1);
     }
 
     public List<String> getTitulos() {
-//        for (Pelicula pelicula : contenido) {
+//        for (Contenido pelicula : contenido) {
 //            System.out.println(pelicula.getTitulo());
 //        }
         contenido.forEach(contenido -> System.out.println(contenido.getTitulo()));
         return contenido.stream()
-                .map(Pelicula::getTitulo)
+                .map(Contenido::getTitulo)
                 .toList();
     }
 
     public List<ResumenContenido> getResumen() {
         return contenido.stream()
-                .map(pelicula -> new ResumenContenido(pelicula.getTitulo(), pelicula.getDuracion(), pelicula.getGenero()))
+                .map(contenido -> new ResumenContenido(contenido.getTitulo(), contenido.getDuracion(), contenido.getGenero()))
                 .toList();
     }
 
     public int getTotalDuracion() {
         return contenido.stream()
-                .mapToInt(Pelicula::getDuracion)
+                .mapToInt(Contenido::getDuracion)
                 .sum();
     }
 
-    public List<Pelicula> getPopulares(int cantidad) {
+    public List<Contenido> getPopulares(int cantidad) {
         return contenido.stream()
-                .sorted(Comparator.comparing(Pelicula::getCalificacion).reversed())
+                .sorted(Comparator.comparing(Contenido::getCalificacion).reversed())
                 .limit(cantidad)
                 .toList();
     }
 
-    public void eliminar(Pelicula elemento) {
+    public List<Pelicula> getPeliculas() {
+        return contenido.stream()
+                .filter(contenido1 -> contenido1 instanceof Pelicula)
+                .map(contenidoFiltrado -> (Pelicula) contenidoFiltrado)
+                .toList();
+    }
+
+    public List<Documental> getDocumentales() {
+        return contenido.stream()
+                .filter(contenido1 -> contenido1 instanceof Documental)
+                .map(contenidoFiltrado -> (Documental) contenidoFiltrado)
+                .toList();
+    }
+
+
+    public void eliminar(Contenido elemento) {
         this.contenido.remove(elemento);
     }
 
-    public Pelicula buscarPorTitulo(String titulo) {
-//        for (Pelicula pelicula : contenido) {
+    public Contenido buscarPorTitulo(String titulo) {
+//        for (Contenido pelicula : contenido) {
 //            if (pelicula.getTitulo().equalsIgnoreCase(titulo)){
 //                return pelicula;
 //            }
@@ -84,7 +99,7 @@ public class Plataforma {
                 .orElse(null);
     }
 
-    public List<Pelicula> buscarPorGenero(Genero genero) {
+    public List<Contenido> buscarPorGenero(Genero genero) {
         return contenido.stream()
                 .filter(contenido -> contenido.getGenero().equals(genero))
                 .toList();
@@ -94,7 +109,7 @@ public class Plataforma {
         return nombre;
     }
 
-    public List<Pelicula> getContenido() {
+    public List<Contenido> getContenido() {
         return contenido;
     }
 }

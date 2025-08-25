@@ -9,41 +9,42 @@ public class ScannerUtils {
 
     public static String capturarTexto(String mensaje) {
         System.out.println(mensaje + ": ");
-        return  SCANNER.nextLine();
+        return SCANNER.nextLine();
     }
 
     public static int capturarNumero(String mensaje) {
         System.out.println(mensaje + ": ");
-        while (!SCANNER.hasNextInt()){
+        while (!SCANNER.hasNextInt()) {
             System.out.println("Dato no aceptado: " + mensaje + ": ");
             SCANNER.next();
         }
         int dato = SCANNER.nextInt();
         SCANNER.nextLine();
-        return  dato;
+        return dato;
     }
 
     public static double capturarDecimal(String mensaje) {
         System.out.println(mensaje + ": ");
-        while (!SCANNER.hasNextDouble()){
+        while (!SCANNER.hasNextDouble()) {
             System.out.println("Dato no aceptado: " + mensaje + ": ");
             SCANNER.next();
         }
         double dato = SCANNER.nextDouble();
         SCANNER.nextLine();
-        return  dato;
+        return dato;
     }
-    public static Genero capturarGenero(String mensaje){
+
+    public static Genero capturarGenero(String mensaje) {
         while (true) {
             System.out.printf("Genero del contenido... Opciones: \n");
-            for (Genero genero: Genero.values()) {
-                System.out.println("-"+ genero.name());
+            for (Genero genero : Genero.values()) {
+                System.out.println("-" + genero.name());
             }
             String entrada = capturarTexto(mensaje);
             try {
                 return Genero.valueOf(entrada.toUpperCase());
             } catch (IllegalArgumentException e) {
-                System.out.printf("Dato no aceptado "+ mensaje + ": ");
+                System.out.printf("Dato no aceptado " + mensaje + ": ");
             }
         }
     }

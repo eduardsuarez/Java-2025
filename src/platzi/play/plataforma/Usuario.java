@@ -1,6 +1,6 @@
 package platzi.play.plataforma;
 
-import platzi.play.contenido.Pelicula;
+import platzi.play.contenido.Contenido;
 
 public class Usuario {
     public String nombre;
@@ -11,9 +11,9 @@ public class Usuario {
         this.email = email;
     }
 
-    public void ver(Pelicula pelicula) {
+    public void ver(Contenido contenido) {
         System.out.println(nombre + " está viendo...");
-        pelicula.reproducir();
+        contenido.reproducir();
     }
 
     public String getNombre() {
