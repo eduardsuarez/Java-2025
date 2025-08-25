@@ -35,7 +35,7 @@ public class ScannerUtils {
     }
     public static Genero capturarGenero(String mensaje){
         while (true) {
-            System.out.printf("...Opciones: \n");
+            System.out.printf("Genero del contenido... Opciones: \n");
             for (Genero genero: Genero.values()) {
                 System.out.println("-"+ genero.name());
             }

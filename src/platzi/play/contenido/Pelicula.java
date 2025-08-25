@@ -11,7 +11,7 @@ public class Pelicula {
     private double calificacion;
     private boolean disponible;
 
-    public  Pelicula(String titulo, int duracion, Genero genero){
+    public Pelicula(String titulo, int duracion, Genero genero) {
         this.titulo = titulo;
         this.duracion = duracion;
         this.genero = genero;
@@ -36,11 +36,12 @@ public class Pelicula {
     }
 
     public void calificar(double calificacion) {
-        if (calificacion >= 0 && calificacion<=5) {
+        if (calificacion >= 0 && calificacion <= 5) {
             this.calificacion = calificacion;
         }
     }
-    public boolean esPopular(){
+
+    public boolean esPopular() {
         return calificacion >= 4;
     }
 
